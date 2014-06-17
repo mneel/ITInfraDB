@@ -5,7 +5,8 @@ package ITInfraDBManager;
 
 /**
  * @author mike.neel
- *
+ * @Date 06.13.2014
+ *Version 1.0
  */
 public class Run {
 

@@ -1,5 +1,9 @@
 package ITInfraDBManager;
-
+/**
+ * @Author Mike neel
+ * @Date 06.13.2014
+ * Version 1.01
+ */
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
