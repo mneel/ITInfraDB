@@ -1,9 +1,11 @@
 package ITInfraDBManager;
+
 /**
  * @Author Mike neel
  * @Date 06.13.2014
  * Version 1.01
  */
+
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
@@ -38,6 +40,7 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JDialog;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -61,6 +64,7 @@ import ITInfraDBManager.ProgressBar;
 public class ITInfraDBManager_Main {
 
 	//Variable Declarations
+	JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 	private String[] values = new String[20];
 	JFrame frmServersdb;
 	private JTable jTable_pServers;
@@ -68,6 +72,7 @@ public class ITInfraDBManager_Main {
 	private JTable jTable_netEQ; 
 	private JTable jTable_AWS_EC2;
 	private JTable jTable_pServer_PSU;
+	private JTable jTable_Reports;
 	
 	//PSERVER Tab variables
 	private JTextField textField_pServer_Model;
@@ -157,7 +162,7 @@ public class ITInfraDBManager_Main {
 		frmServersdb = new JFrame();
 		frmServersdb.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mike.neel\\Documents\\Eclipse_Workspaces\\ITDB_Project\\ITInfraDBManager\\Databases.jpg"));
 		frmServersdb.setTitle("IT Infra DB Manager");
-		frmServersdb.setBounds(100, 100, 800, 640);
+		frmServersdb.setBounds(100, 100, 1000, 1000);
 		frmServersdb.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmServersdb.getContentPane().setLayout(new MigLayout("", "[784px,grow]", "[21px][grow]"));
 		
@@ -179,7 +184,24 @@ public class ITInfraDBManager_Main {
 		JMenu mnReportsMenu = new JMenu("Reports");
 		menuBar.add(mnReportsMenu);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		JMenu subMN_Ups = new JMenu("UPS");
+		mnReportsMenu.add(subMN_Ups);
+		
+		JMenuItem mntm_UPSHealth = new JMenuItem("Health Report");
+		subMN_Ups.add(mntm_UPSHealth);
+		
+		JMenuItem mntm_UPSReport = new JMenuItem("Detailed Report");
+		mntm_UPSReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showReport("UPS Report", "SELECT * FROM dbo.UPS");
+			}
+		});
+		subMN_Ups.add(mntm_UPSReport);
+		
+		JMenuItem mntmRackDetail = new JMenuItem("Rack Detail");
+		mnReportsMenu.add(mntmRackDetail);
+		
+		
 		frmServersdb.getContentPane().add(tabbedPane, "cell 0 1,grow");
 		
 		////////////////////////////////////////
@@ -1620,6 +1642,59 @@ public class ITInfraDBManager_Main {
 		gbc_btn_AWSEC2_Delete.gridy = 3;
 		panel_AWSEC2_dataEntry.add(btn_AWSEC2_Delete, gbc_btn_AWSEC2_Delete);
 		AWS_EC2Tab.setLayout(gl_AWS_EC2Tab);			
+	}
+	/** 
+	 * This method will display the results of the selected report from the reports menu in a self name tab
+	 * @param tableName
+	 * @param reportName
+	 */
+	public void showReport(String reportName, String qry){
+		JFrame frame = new JFrame();
+		JDialog reports = new JDialog(frame, "reportName");
+
+		JPanel REPORTTab = new JPanel();
+		
+		//tabbedPane.addTab(reportName, null, REPORTTab, null);
+		jTable_Reports = createReportTable(qry);
+		jTable_Reports.setBackground(Color.WHITE);
+		jTable_Reports.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		jTable_Reports.setSurrendersFocusOnKeystroke(true);
+		jTable_Reports.setFillsViewportHeight(true);
+		jTable_Reports.setColumnSelectionAllowed(true);
+		jTable_Reports.setCellSelectionEnabled(true);
+		jTable_Reports.setAutoscrolls(true);
+		JScrollPane scrollPane_REPORT = new JScrollPane(jTable_Reports);
+		
+		reports.getContentPane().add(scrollPane_REPORT);
+		reports.setSize(800, 400);
+		reports.setAlwaysOnTop(true);
+		reports.setVisible(true);
+		
+	}
+	/**
+	 * This Method creates creates the table to hold the results of the selected reports
+	 * @param tableName
+	 * @param qry
+	 * @return
+	 */
+	public JTable createReportTable(String qry){
+		JTable table = new JTable();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			 stmt = estConn().prepareStatement(qry);
+			 rs = stmt.executeQuery();
+			 table = new JTable(buildTableModel(rs));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally{
+			closeConn(rs, stmt);
+		}
+		return table;
+		
+		
 	}
 
 	/**
