@@ -162,7 +162,7 @@ public class ITInfraDBManager_Main {
 		frmServersdb = new JFrame();
 		frmServersdb.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mike.neel\\Documents\\Eclipse_Workspaces\\ITDB_Project\\ITInfraDBManager\\Databases.jpg"));
 		frmServersdb.setTitle("IT Infra DB Manager");
-		frmServersdb.setBounds(100, 100, 1000, 1000);
+		frmServersdb.setBounds(100, 100, 1000, 900);
 		frmServersdb.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmServersdb.getContentPane().setLayout(new MigLayout("", "[784px,grow]", "[21px][grow]"));
 		
@@ -170,9 +170,11 @@ public class ITInfraDBManager_Main {
 		frmServersdb.getContentPane().add(menuBar, "cell 0 0,growx,aligny top");
 		
 		JMenu mnFileMenu = new JMenu("File");
+		mnFileMenu.setBackground(SystemColor.controlHighlight);
 		menuBar.add(mnFileMenu);
 		
 		JMenuItem mntmClose = new JMenuItem("Close");
+		mntmClose.setBackground(SystemColor.inactiveCaptionBorder);
 		mntmClose.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -182,15 +184,19 @@ public class ITInfraDBManager_Main {
 		mnFileMenu.add(mntmClose);
 		
 		JMenu mnReportsMenu = new JMenu("Reports");
+		mnReportsMenu.setBackground(SystemColor.inactiveCaptionBorder);
 		menuBar.add(mnReportsMenu);
 		
 		JMenu subMN_Ups = new JMenu("UPS");
+		subMN_Ups.setBackground(SystemColor.inactiveCaptionBorder);
 		mnReportsMenu.add(subMN_Ups);
 		
 		JMenuItem mntm_UPSHealth = new JMenuItem("Health Report");
+		mntm_UPSHealth.setBackground(SystemColor.inactiveCaptionBorder);
 		subMN_Ups.add(mntm_UPSHealth);
 		
 		JMenuItem mntm_UPSReport = new JMenuItem("Detailed Report");
+		mntm_UPSReport.setBackground(SystemColor.inactiveCaptionBorder);
 		mntm_UPSReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				showReport("UPS Report", "SELECT * FROM dbo.UPS");
@@ -199,7 +205,15 @@ public class ITInfraDBManager_Main {
 		subMN_Ups.add(mntm_UPSReport);
 		
 		JMenuItem mntmRackDetail = new JMenuItem("Rack Detail");
+		mntmRackDetail.setBackground(SystemColor.inactiveCaptionBorder);
 		mnReportsMenu.add(mntmRackDetail);
+		
+		JMenu mnVirtualMachines = new JMenu("Virtual Machines");
+		mnVirtualMachines.setBackground(SystemColor.inactiveCaptionBorder);
+		mnReportsMenu.add(mnVirtualMachines);
+		
+		JMenuItem menuItem = new JMenuItem("New menu item");
+		mnVirtualMachines.add(menuItem);
 		
 		
 		frmServersdb.getContentPane().add(tabbedPane, "cell 0 1,grow");
@@ -298,7 +312,8 @@ public class ITInfraDBManager_Main {
 		panel_pServer_dataEntry.add(lbl_pServer_RackNum, gbc_lbl_pServer_RackNum);
 		
 		//code for pServer_RackNum comboBox
-		comboBox_pServer_RackNum.setModel(new DefaultComboBoxModel(new String[] {"", "01", "02", "03"}));
+		comboBox_pServer_RackNum.addItem("");
+		populateCombobox(comboBox_pServer_RackNum, "dbo.Racks", "RackNum", false);
 		GridBagConstraints gbc_comboBox_pServer_RackNum = new GridBagConstraints();
 		gbc_comboBox_pServer_RackNum.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_pServer_RackNum.fill = GridBagConstraints.HORIZONTAL;
@@ -339,8 +354,11 @@ public class ITInfraDBManager_Main {
 		panel_pServer_dataEntry.add(lbl_pServer_RackPosition, gbc_lbl_pServer_RackPosition);
 		
 		// code for pServer_RackPos comboBox
-		comboBox_pServer_RackPos.setModel(new DefaultComboBoxModel(new String[] {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"}));
-		comboBox_pServer_RackPos.setSelectedIndex(0);
+		comboBox_pServer_RackPos.setModel(new DefaultComboBoxModel());
+		comboBox_pServer_RackPos.addItem("");
+		for(int i = 1; i < 45; i++){
+			comboBox_pServer_RackPos.addItem(Integer.toString(i));
+		}
 		GridBagConstraints gbc_comboBox_pServer_RackPos = new GridBagConstraints();
 		gbc_comboBox_pServer_RackPos.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_pServer_RackPos.fill = GridBagConstraints.HORIZONTAL;
@@ -375,7 +393,6 @@ public class ITInfraDBManager_Main {
 		
 		//code for pServer_Usize comboBox
 		comboBox_pServers_Usize.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4"}));
-		comboBox_pServers_Usize.setSelectedIndex(0);
 		GridBagConstraints gbc_comboBox_Usize = new GridBagConstraints();
 		gbc_comboBox_Usize.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_Usize.fill = GridBagConstraints.HORIZONTAL;
@@ -1650,18 +1667,15 @@ public class ITInfraDBManager_Main {
 	 */
 	public void showReport(String reportName, String qry){
 		JFrame frame = new JFrame();
-		JDialog reports = new JDialog(frame, "reportName");
-
-		JPanel REPORTTab = new JPanel();
+		JDialog reports = new JDialog(frame, reportName);
 		
-		//tabbedPane.addTab(reportName, null, REPORTTab, null);
 		jTable_Reports = createReportTable(qry);
 		jTable_Reports.setBackground(Color.WHITE);
 		jTable_Reports.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		jTable_Reports.setSurrendersFocusOnKeystroke(true);
 		jTable_Reports.setFillsViewportHeight(true);
-		jTable_Reports.setColumnSelectionAllowed(true);
-		jTable_Reports.setCellSelectionEnabled(true);
+		jTable_Reports.setColumnSelectionAllowed(false);
+		jTable_Reports.setCellSelectionEnabled(false);
 		jTable_Reports.setAutoscrolls(true);
 		JScrollPane scrollPane_REPORT = new JScrollPane(jTable_Reports);
 		
@@ -2105,63 +2119,91 @@ public class ITInfraDBManager_Main {
 
 		switch (tabName.toUpperCase()){
 		case "PSERVERS":
-			collectValues(tabName.toUpperCase());
-				switch( action.toUpperCase()){
-					case "ADD":	
-						addRecord("PSERVERS", values);
-						refreshTable("dbo.pServers", jTable_pServers);
-						populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
-						break;
-					case "UPDATE":															
-						updateRecord("PSERVERS", values);
-						refreshTable("dbo.pServers", jTable_pServers);
-						populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
-						break;
-					case "DELETE":															
-						deleteRecord("PSERVERS", values);
-						refreshTable("dbo.pServers", jTable_pServers);
-						populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
-						break;
+			if(comboBox_pServer_StatusOn.getSelectedItem() == null || comboBox_pServer_StatusOn.getSelectedItem().toString().equals("") ){
+				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_pServer_RackNum.getSelectedItem() == null || comboBox_pServer_RackNum.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Select a Rack Number", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_pServer_RackPos.getSelectedItem() == null || comboBox_pServer_RackPos.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Select a Rack Position)", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_pServers_Usize.getSelectedItem() == null || comboBox_pServers_Usize.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Select the Servers U Size", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else{
+				collectValues(tabName.toUpperCase());
+					switch( action.toUpperCase()){
+						case "ADD":	
+							addRecord("PSERVERS", values);
+							refreshTable("dbo.pServers", jTable_pServers);
+							populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
+							break;
+						case "UPDATE":															
+							updateRecord("PSERVERS", values);
+							refreshTable("dbo.pServers", jTable_pServers);
+							populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
+							break;
+						case "DELETE":															
+							deleteRecord("PSERVERS", values);
+							refreshTable("dbo.pServers", jTable_pServers);
+							populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
+							break;
+					}
 				}
 				break;
 		case "VSERVERS":
-			collectValues(tabName.toUpperCase());
-			switch( action.toUpperCase()){
-			case "ADD":														
-				addRecord("VSERVERS", values);
-				refreshTable("dbo.vServer", jTable_vServers);
-				populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
-				populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
-				populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
-				break;
-			case "UPDATE":														
-				updateRecord("VSERVERS", values);
-				refreshTable("dbo.vServer", jTable_vServers);
-				populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
-				populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
-				populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
-				break;
-			case "DELETE":															
-				deleteRecord("VSERVERS", values);
-				refreshTable("dbo.vServer", jTable_vServers);
-				populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
-				populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
-				populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
-				break;
-		}
+			if(comboBox_vServer_StatusON.getSelectedItem() == null || comboBox_vServer_StatusON.getSelectedItem().toString().equals("") ){
+				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_vServer_AssignedMem.getSelectedItem() == null || comboBox_vServer_AssignedMem.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Enter / Select an Amount os Assigned RAM\n (EX: Enter 4 to signify 4GB)", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_vServer_VHDsize.getSelectedItem() == null || comboBox_vServer_VHDsize.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Enter / Select a VHD Size\n (EX: Enter 60 to Signify 60GB)", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else if(comboBox_vServer_pServer_Name.getSelectedItem() == null || comboBox_vServer_pServer_Name.getSelectedItem().toString().equals("")){
+				JOptionPane.showMessageDialog(null, "You must Enter / Select a Physical Host Name", "Error", JOptionPane.ERROR_MESSAGE);
+				break;								
+			}else{
+				collectValues(tabName.toUpperCase());
+				switch( action.toUpperCase()){
+				case "ADD":														
+					addRecord("VSERVERS", values);
+					refreshTable("dbo.vServer", jTable_vServers);
+					populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
+					populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
+					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);					
+					break;
+				case "UPDATE":														
+					updateRecord("VSERVERS", values);
+					refreshTable("dbo.vServer", jTable_vServers);
+					//populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
+					populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
+					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);					
+					break;
+				case "DELETE":															
+					deleteRecord("VSERVERS", values);
+					refreshTable("dbo.vServer", jTable_vServers);
+					//populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
+					populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
+					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
+					break;
+				}
+			}
 			break;
 		case "NETEQ":
 			if(comboBox_NetEQ_Type.getSelectedItem() == null || comboBox_NetEQ_Type.getSelectedItem().toString().equals("") ){
-				JOptionPane.showMessageDialog(null, "You must input / Select a Type");
+				JOptionPane.showMessageDialog(null, "You must Enter / Select a Type", "Error", JOptionPane.ERROR_MESSAGE);
 				break;								
 			}else if(comboBox_NetEQ_StatusOn.getSelectedItem() == null || comboBox_NetEQ_StatusOn.getSelectedItem().toString().equals("")){
-				JOptionPane.showMessageDialog(null, "You must Select a Status");
+				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
 				break;								
 			}else if(comboBox_NetEQ_RackNum.getSelectedItem() == null || comboBox_NetEQ_RackNum.getSelectedItem().toString().equals("")){
-				JOptionPane.showMessageDialog(null, "You must input a Rack Number");
+				JOptionPane.showMessageDialog(null, "You must Select a Rack Number", "Error", JOptionPane.ERROR_MESSAGE);
 				break;								
 			}else if(comboBox_NetEQ_hostName.getSelectedItem() == null || comboBox_NetEQ_hostName.getSelectedItem().toString().equals("")){
-				JOptionPane.showMessageDialog(null, "You must input a Hostname");
+				JOptionPane.showMessageDialog(null, "You must Enter / Select a Hostname", "Error", JOptionPane.ERROR_MESSAGE);
 				break;								
 			}else{
 				collectValues(tabName.toUpperCase());
