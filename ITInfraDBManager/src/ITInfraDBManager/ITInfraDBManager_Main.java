@@ -33,6 +33,8 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
@@ -51,12 +53,6 @@ import javax.swing.SwingConstants;
 
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-
-import java.awt.Font;
 import java.awt.SystemColor;
 
 import ITInfraDBManager.ProgressBar;
@@ -167,7 +163,7 @@ public class ITInfraDBManager_Main {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	private void initialize() {
 
 
@@ -401,7 +397,7 @@ public class ITInfraDBManager_Main {
 		panel_pServer_dataEntry.add(lbl_pServer_RackPosition, gbc_lbl_pServer_RackPosition);
 
 		// code for pServer_RackPos comboBox
-		comboBox_pServer_RackPos.setModel(new DefaultComboBoxModel());
+		comboBox_pServer_RackPos.setModel(new DefaultComboBoxModel<String>());
 		comboBox_pServer_RackPos.addItem("");
 		for(int i = 1; i < 45; i++){
 			comboBox_pServer_RackPos.addItem(Integer.toString(i));
@@ -439,7 +435,7 @@ public class ITInfraDBManager_Main {
 		panel_pServer_dataEntry.add(lbl_pServer_USize, gbc_lbl_pServer_USize);
 
 		//code for pServer_Usize comboBox
-		comboBox_pServers_Usize.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4"}));
+		comboBox_pServers_Usize.setModel(new DefaultComboBoxModel<String>(new String[] {"", "1", "2", "3", "4"}));
 		GridBagConstraints gbc_comboBox_Usize = new GridBagConstraints();
 		gbc_comboBox_Usize.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_Usize.fill = GridBagConstraints.HORIZONTAL;
@@ -473,7 +469,7 @@ public class ITInfraDBManager_Main {
 		panel_pServer_dataEntry.add(lbl_pServer_StatusOn, gbc_lbl_pServer_StatusOn);
 
 		// code for pServer_StatusON comboBox
-		comboBox_pServer_StatusOn.setModel(new DefaultComboBoxModel(new String[] {"", "T", "F"}));
+		comboBox_pServer_StatusOn.setModel(new DefaultComboBoxModel<String>(new String[] {"", "T", "F"}));
 		GridBagConstraints gbc_comboBox_pServer_StatusOn = new GridBagConstraints();
 		gbc_comboBox_pServer_StatusOn.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_pServer_StatusOn.fill = GridBagConstraints.HORIZONTAL;
@@ -781,7 +777,7 @@ public class ITInfraDBManager_Main {
 		panel_vServer_dataEntry.add(lbl_vServer_StatusON, gbc_lbl_vServer_StatusON);
 
 		// code forcomboBox_vServer_StatusON
-		comboBox_vServer_StatusON.setModel(new DefaultComboBoxModel(new String[] {"", "T", "F"}));
+		comboBox_vServer_StatusON.setModel(new DefaultComboBoxModel<String>(new String[] {"", "T", "F"}));
 		GridBagConstraints gbc_comboBox_vServer_StatusON = new GridBagConstraints();
 		gbc_comboBox_vServer_StatusON.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_vServer_StatusON.fill = GridBagConstraints.HORIZONTAL;
@@ -1159,7 +1155,7 @@ public class ITInfraDBManager_Main {
 		panel_NetEQ_dataEntry.add(lbl_NetEQ_StatusOn, gbc_lbl_NetEQ_StatusOn);
 
 		//code for comboBox_NetEQ_StatusOn
-		comboBox_NetEQ_StatusOn.setModel(new DefaultComboBoxModel(new String[] {"", "T", "F"}));
+		comboBox_NetEQ_StatusOn.setModel(new DefaultComboBoxModel<String>(new String[] {"", "T", "F"}));
 		comboBox_NetEQ_StatusOn.setEditable(true);
 		GridBagConstraints gbc_comboBox_NetEQ_StatusOn = new GridBagConstraints();
 		gbc_comboBox_NetEQ_StatusOn.insets = new Insets(0, 0, 5, 5);
@@ -1194,7 +1190,7 @@ public class ITInfraDBManager_Main {
 		panel_NetEQ_dataEntry.add(lbl_NetEQ_RackNum, gbc_lbl_NetEQ_RackNum);
 
 		// code for comboBox_NetEQ_RackNum
-		comboBox_NetEQ_RackNum.setModel(new DefaultComboBoxModel(new String[] {"", "01", "02", "03"}));
+		comboBox_NetEQ_RackNum.setModel(new DefaultComboBoxModel<String>(new String[] {"", "01", "02", "03"}));
 		GridBagConstraints gbc_comboBox_NetEQ_RackNum = new GridBagConstraints();
 		gbc_comboBox_NetEQ_RackNum.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_NetEQ_RackNum.fill = GridBagConstraints.HORIZONTAL;
@@ -1379,7 +1375,7 @@ public class ITInfraDBManager_Main {
 		panel_pServer_PSU_dataEntry.add(lbl_pServer_PSU_PsuNum, gbc_lbl_pServer_PSU_PsuNum);
 
 		//code for comboBox_pServer_PSU_psuNum
-		comboBox_pServer_PSU_psuNum.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
+		comboBox_pServer_PSU_psuNum.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4"}));
 		comboBox_pServer_PSU_psuNum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(comboBox_pServer_PSU_psuNum.getSelectedItem().toString() != null)
@@ -1987,7 +1983,10 @@ public class ITInfraDBManager_Main {
 		try {
 			stmt = estConn().prepareStatement(qry);
 			rs = stmt.executeQuery();
-			table = new JTable(buildTableModel(rs));
+			TableModel rModel = buildTableModel(rs);
+			table = new JTable(rModel);
+			table.setRowSorter(new TableRowSorter<TableModel>(rModel));
+			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -2014,7 +2013,9 @@ public class ITInfraDBManager_Main {
 		try {
 			stmt = estConn().prepareStatement(qry);
 			rs = stmt.executeQuery();
-			table = new JTable(buildTableModel(rs));
+			TableModel model = buildTableModel(rs);
+			table = new JTable(model);
+			table.setRowSorter(new TableRowSorter<TableModel>(model));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

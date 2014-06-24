@@ -1,10 +1,7 @@
 package ITInfraDBManager;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
