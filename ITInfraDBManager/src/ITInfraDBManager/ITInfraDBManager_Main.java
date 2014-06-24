@@ -208,15 +208,6 @@ public class ITInfraDBManager_Main {
 		mntm_UPSHealth.setBackground(SystemColor.inactiveCaptionBorder);
 		subMN_Ups.add(mntm_UPSHealth);
 
-		JMenuItem mntm_UPSReport = new JMenuItem("Detailed Report");
-		mntm_UPSReport.setBackground(SystemColor.inactiveCaptionBorder);
-		mntm_UPSReport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				showReport("UPS Report", "SELECT * FROM dbo.UPS");
-			}
-		});
-		subMN_Ups.add(mntm_UPSReport);
-
 		JMenuItem mntmRackDetail = new JMenuItem("Rack Detail");
 		mntmRackDetail.setBackground(SystemColor.inactiveCaptionBorder);
 		mnReportsMenu.add(mntmRackDetail);
@@ -225,8 +216,51 @@ public class ITInfraDBManager_Main {
 		mnVirtualMachines.setBackground(SystemColor.inactiveCaptionBorder);
 		mnReportsMenu.add(mnVirtualMachines);
 
-		JMenuItem menuItem = new JMenuItem("New menu item");
-		mnVirtualMachines.add(menuItem);
+		JMenuItem mntmVmsByPserver = new JMenuItem("VMS by PServer");
+		mntmVmsByPserver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Connection conn = estConn();
+				Statement stmt = null;
+				ResultSet rs = null;
+				String query = "SELECT DISTINCT pServer_Name FROM dbo.vServer";
+				String rName, rQry;
+				String[] hostnames = new String[20];
+				int cnt = 0;
+				
+				try{
+					stmt = conn.createStatement();
+					rs = stmt.executeQuery(query);
+					while (rs.next()){
+						String str = rs.getString("pServer_Name");
+						hostnames[cnt] = str;
+						cnt++;
+					}
+				}catch (SQLException ex){
+					ex.printStackTrace();
+				}finally{
+					closeConn(rs, stmt);
+				}
+				
+				JFrame frame = new JFrame("VMs by Physical Host Report");
+				String host = (String) JOptionPane.showInputDialog(frame, 
+						"Choose a HostName to view VMs.",
+						"VMs by Physical Host",
+						JOptionPane.QUESTION_MESSAGE, 
+						null, 
+						hostnames, 
+						hostnames[0]);
+				if(host.equals(null) || host.equals("")){}
+				else{
+					rName = "All VMs on " + host;
+					rQry = "SELECT vServer_Name, Status_ON, assignedMemory, VHD_Size, IP_Address_01, IP_Address_02, IP_Address_03, IP_Address_04, BackupDestination, moreBackups, OS, Services_Applications, point_of_contact " +
+					       "FROM dbo.vServer " +
+						   "WHERE pServer_Name = '" + host + "'";
+					showReport(rName, rQry);	
+				}
+			}
+		});
+		mnVirtualMachines.add(mntmVmsByPserver);
 
 
 		frmServersdb.getContentPane().add(tabbedPane, "cell 0 1,grow");
@@ -2585,7 +2619,7 @@ public class ITInfraDBManager_Main {
 				}
 			}
 			break;
-			}
+		}
 	}
 
 	/**
@@ -3012,4 +3046,5 @@ public class ITInfraDBManager_Main {
 			closeConn(rs, stmt);
 		}		
 	}
+
 }
