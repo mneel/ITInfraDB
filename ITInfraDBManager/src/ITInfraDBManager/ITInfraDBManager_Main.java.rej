@@ -1,0 +1,10 @@
+diff a/ITInfraDBManager/src/ITInfraDBManager/ITInfraDBManager_Main.java b/ITInfraDBManager/src/ITInfraDBManager/ITInfraDBManager_Main.java	(rejected hunks)
+@@ -3,7 +3,7 @@
+ /**
+  * @Author Mike neel
+  * @Date 08.13.2014
+- * Version 1.3.0
++ * Version 1.3.0.0
+  */
+ 
+ import javax.swing.JFrame;

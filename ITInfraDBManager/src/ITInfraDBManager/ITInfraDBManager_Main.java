@@ -3,7 +3,7 @@ package ITInfraDBManager;
 /**
  * @Author Mike neel
  * @Date 08.13.2014
- * Version 1.3.0.0
+ * Version 1.3.0
  */
 
 import javax.swing.JFrame;
