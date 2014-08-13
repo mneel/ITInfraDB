@@ -12,7 +12,7 @@ import java.awt.Toolkit;
 public class ProgressBar {
 
 	JFrame frame;
-	private final JLabel lblPleaseWaitWhile = new JLabel("Please Wait while the Program Loads");
+	private final JLabel lblPleaseWaitWhile = new JLabel("Please Wait while the ITInfraDB Manager Loads");
 	private final JProgressBar progressBar = new JProgressBar();
 	/**
 	 * Create the application.
@@ -26,7 +26,7 @@ public class ProgressBar {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mike.neel\\Documents\\Eclipse_Workspaces\\ITDB_Project\\ITInfraDBManager\\Databases.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mike.neel\\Pictures\\DBIcon.jpg"));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 400, 77);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
