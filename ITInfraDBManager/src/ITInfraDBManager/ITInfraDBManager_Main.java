@@ -2,14 +2,12 @@ package ITInfraDBManager;
 
 /**
  * @Author Mike neel
- * @Date 06.13.2014
- * Version 1.01
+ * @Date 08.13.2014
+ * Version 1.3.0
  */
 
 import javax.swing.JFrame;
-
 import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -17,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -28,18 +25,15 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDialog;
@@ -50,11 +44,9 @@ import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
-
 import ITInfraDBManager.ProgressBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -67,12 +59,12 @@ public class ITInfraDBManager_Main {
 	private JTable jTable_pServers;
 	private JTable jTable_pServerHWConfig;
 	private JTable jTable_vServers;
-	private JTable jTable_netEQ; 
+	private JTable jTable_netEQ;
 	private JTable jTable_AWS_EC2;
 	private JTable jTable_pServer_PSU;
 	private JTable jTable_Reports;
 	private JTable jTable_UPS;
-	
+
 	//PSERVER Tab variables
 	private JTextField textField_pServer_Model;
 	private JTextField textField_pServer_SerialNumber;
@@ -95,7 +87,7 @@ public class ITInfraDBManager_Main {
 	//VSERVERS Tab Variables
 	final JComboBox<String> comboBox_vServers_vServer_Name = new JComboBox<String>();
 	final JComboBox<String> comboBox_vServer_pServer_Name = new JComboBox<String>();
-	final JComboBox<String> comboBox_vServer_StatusON = new JComboBox<String>();	
+	final JComboBox<String> comboBox_vServer_StatusON = new JComboBox<String>();
 	final JComboBox<String> comboBox_vServer_VHDsize = new JComboBox<String>();
 	final JComboBox<String> comboBox_vServer_AssignedMem = new JComboBox<String>();
 	private JTextField textField_vServer_backupDestination;
@@ -166,7 +158,6 @@ public class ITInfraDBManager_Main {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-
 	private void initialize() {
 
 
@@ -242,12 +233,12 @@ public class ITInfraDBManager_Main {
 				}
 
 				JFrame frame = new JFrame("VMs by Physical Host Report");
-				String host = (String) JOptionPane.showInputDialog(frame, 
+				String host = (String) JOptionPane.showInputDialog(frame,
 						"Choose a HostName to view VMs.",
 						"VMs by Physical Host",
-						JOptionPane.QUESTION_MESSAGE, 
-						null, 
-						hostnames, 
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						hostnames,
 						hostnames[0]);
 				if(host.equals(null) || host.equals("")){}
 				else{
@@ -255,7 +246,7 @@ public class ITInfraDBManager_Main {
 					rQry = "SELECT vServer_Name, Status_ON, assignedMemory, VHD_Size, IP_Address_01, IP_Address_02, IP_Address_03, IP_Address_04, BackupDestination, moreBackups, OS, Services_Applications, point_of_contact " +
 							"FROM dbo.vServer " +
 							"WHERE pServer_Name = '" + host + "'";
-					showReport(rName, rQry);	
+					showReport(rName, rQry);
 				}
 			}
 		});
@@ -666,10 +657,10 @@ public class ITInfraDBManager_Main {
 				if(valid("PSERVERS")){
 					try {
 						rNameSTMT = estConn().createStatement();
-						rNameSTMT.executeUpdate("UPDATE dbo.pServers " + 
-								"SET pServer_Name = '" + values[19] + "', RackNum = '" + values[1] + "', Status_ON = '" + values[2] + "', Model = '" + values[3] + "', Serial_Num = '" + values[4] + "', RAT = '" + 
+						rNameSTMT.executeUpdate("UPDATE dbo.pServers " +
+								"SET pServer_Name = '" + values[19] + "', RackNum = '" + values[1] + "', Status_ON = '" + values[2] + "', Model = '" + values[3] + "', Serial_Num = '" + values[4] + "', RAT = '" +
 								values[5] + "', ProductionDate = '" + values[6] + "', OS = '" + values[7] + "', IP_Address_01 = '" + values[8] + "', IP_Address_02 = '" +
-								values[9] + "', IP_Address_03 = '" + values[10] + "', IP_Address_04 = '" + values[11] + "', DRAC_IP_Address = '" + values[12] + 
+								values[9] + "', IP_Address_03 = '" + values[10] + "', IP_Address_04 = '" + values[11] + "', DRAC_IP_Address = '" + values[12] +
 								"', Services_Applications = '" + values[13] + "', Notes = '" + values[14] + "', RackPosition = " + values[15] + ", uSize = '" + values[16] +
 								"' WHERE pServer_Name = '" + values[0] + "';");
 						JOptionPane.showMessageDialog(null, "Record Updated!");
@@ -729,7 +720,7 @@ public class ITInfraDBManager_Main {
 		gl_pServersTab.setAutoCreateGaps(true);
 		gl_pServersTab.setAutoCreateContainerGaps(true);
 		pServersTab.setLayout(gl_pServersTab);
-		
+
 		///////////////////////////////////////
 		//Start Code for Virtual Servers Tab //
 		///////////////////////////////////////
@@ -743,7 +734,7 @@ public class ITInfraDBManager_Main {
 		jTable_vServers.setColumnSelectionAllowed(true);
 		jTable_vServers.setCellSelectionEnabled(true);
 		JScrollPane scrollPane_vServers = new JScrollPane(jTable_vServers);
-		
+
 		JPanel panel_vServer_dataEntry = new JPanel();
 		GroupLayout gl_vServersTab = new GroupLayout(vServersTab);
 		gl_vServersTab.setHorizontalGroup(
@@ -1039,10 +1030,10 @@ public class ITInfraDBManager_Main {
 				if(valid("VSERVERS")){
 					try {
 						rNameSTMT = estConn().createStatement();
-						rNameSTMT.executeUpdate("UPDATE dbo.vServer " + 
+						rNameSTMT.executeUpdate("UPDATE dbo.vServer " +
 								"SET vServer_Name = '" + values[19] + "', Status_ON = '" + values[2] + "', assignedMemory = '" + values[3] + "', VHD_Size = '" + values[4] + "', IP_Address_01 = '" + values[5] +
 								"', IP_Address_02 = '" + values[6] + "', IP_Address_03 = '" + values[7] + "', IP_Address_04 = '" + values[8] + "', BackupDestination = '" +
-								values[9] + "', moreBackups = '" + values[10] + "', OS = '" + values[11] + "', Services_Applications = '" + values[12] + 
+								values[9] + "', moreBackups = '" + values[10] + "', OS = '" + values[11] + "', Services_Applications = '" + values[12] +
 								"', point_of_contact = '" + values[13] + "'" +
 								"WHERE vServer_Name = '" + values[0] + "' AND pServer_Name = '" + values[1] + "';");
 						JOptionPane.showMessageDialog(null, "Record Updated!");
@@ -1116,7 +1107,7 @@ public class ITInfraDBManager_Main {
 		jTable_netEQ.setColumnSelectionAllowed(true);
 		jTable_netEQ.setCellSelectionEnabled(true);
 		JScrollPane scrollPane_netEQ = new JScrollPane(jTable_netEQ);
-		
+
 		JPanel panel_NetEQ_dataEntry = new JPanel();
 		GroupLayout gl_netEQTab = new GroupLayout(netEQTab);
 		gl_netEQTab.setHorizontalGroup(
@@ -1449,7 +1440,7 @@ public class ITInfraDBManager_Main {
 		jTable_pServer_PSU.setColumnSelectionAllowed(true);
 		jTable_pServer_PSU.setCellSelectionEnabled(true);
 		JScrollPane scrollPane_pServer_PSU = new JScrollPane(jTable_pServer_PSU);
-		
+
 		JPanel panel_pServer_PSU_dataEntry = new JPanel();
 		GroupLayout gl_pServer_PSUTab = new GroupLayout(pServer_PSUTab);
 		gl_pServer_PSUTab.setHorizontalGroup(
@@ -1535,7 +1526,7 @@ public class ITInfraDBManager_Main {
 		panel_pServer_PSU_dataEntry.add(lbl_pServer_PSU_UpsName, gbc_lbl_pServer_PSU_UpsName);
 
 		//code for comboBox_pServer_PSU_UpsName
-		comboBox_pServer_PSU_UpsName.addItem("");		
+		comboBox_pServer_PSU_UpsName.addItem("");
 		populateCombobox(comboBox_pServer_PSU_UpsName, "ups", "upsName", false);
 		GridBagConstraints gbc_comboBox_pServer_PSU_UpsName = new GridBagConstraints();
 		gbc_comboBox_pServer_PSU_UpsName.insets = new Insets(0, 0, 5, 5);
@@ -1641,7 +1632,7 @@ public class ITInfraDBManager_Main {
 		jTable_AWS_EC2.setColumnSelectionAllowed(true);
 		jTable_AWS_EC2.setCellSelectionEnabled(true);
 		JScrollPane scrollPane_AWS_EC2 = new JScrollPane(jTable_AWS_EC2);
-		
+
 		JPanel panel_AWSEC2_dataEntry = new JPanel();
 		GroupLayout gl_AWS_EC2Tab = new GroupLayout(AWS_EC2Tab);
 		gl_AWS_EC2Tab.setHorizontalGroup(
@@ -1815,7 +1806,7 @@ public class ITInfraDBManager_Main {
 		gbc_btn_AWSEC2_Delete.gridx = 3;
 		gbc_btn_AWSEC2_Delete.gridy = 3;
 		panel_AWSEC2_dataEntry.add(btn_AWSEC2_Delete, gbc_btn_AWSEC2_Delete);
-		AWS_EC2Tab.setLayout(gl_AWS_EC2Tab);	
+		AWS_EC2Tab.setLayout(gl_AWS_EC2Tab);
 
 		/////////////////////////////////////////
 		//Start Code for UPS Tab           //
@@ -2054,7 +2045,7 @@ public class ITInfraDBManager_Main {
 		panel_UPS_dataEntry.add(btn_UPS_Delete, gbc_btn_UPS_Delete);
 		UPSTab.setLayout(gl_UPSTab);
 	}
-	/** 
+	/**
 	 * This method will display the results of the selected report from the reports menu in a self name tab
 	 * @param tableName
 	 * @param reportName
@@ -2197,7 +2188,7 @@ public class ITInfraDBManager_Main {
 		}
 	}
 	/**
-	 * This Method will be called on each tab in the main window and will populate the JcomboBox that corresponds to the primary key column in the table being displayed 
+	 * This Method will be called on each tab in the main window and will populate the JcomboBox that corresponds to the primary key column in the table being displayed
 	 * on that tab
 	 * @param comboBox
 	 * @param tableName
@@ -2275,7 +2266,7 @@ public class ITInfraDBManager_Main {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}				
+				}
 			}
 		}else{
 			try{
@@ -2297,7 +2288,7 @@ public class ITInfraDBManager_Main {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}			
+				}
 			}
 		}
 	}
@@ -2322,21 +2313,21 @@ public class ITInfraDBManager_Main {
 				{
 					comboBox_pServer_RackNum.setSelectedItem(rs.getString("RackNum"));
 					comboBox_pServer_StatusOn.setSelectedItem(rs.getString("Status_ON"));
-					textField_pServer_Model.setText(rs.getString("Model"));	
-					textField_pServer_SerialNumber.setText(rs.getString("Serial_Num"));	
-					textField_pServer_Rat.setText(rs.getString("RAT"));	
+					textField_pServer_Model.setText(rs.getString("Model"));
+					textField_pServer_SerialNumber.setText(rs.getString("Serial_Num"));
+					textField_pServer_Rat.setText(rs.getString("RAT"));
 					textField_pServer_ProductionDate.setText(rs.getString("ProductionDate"));
 					textField_pServer_OperatingSystem.setText(rs.getString("OS"));
 					textField_pServer_IPAdd01.setText(rs.getString("IP_Address_01"));
 					textField_pServer_IPAdd02.setText(rs.getString("IP_Address_02"));
 					textField_pServer_IPAdd03.setText(rs.getString("IP_Address_03"));
 					textField_pServer_IPAdd04.setText(rs.getString("IP_Address_04"));
-					textField_pServer_DracIpAdd.setText(rs.getString("DRAC_IP_Address"));	
+					textField_pServer_DracIpAdd.setText(rs.getString("DRAC_IP_Address"));
 					textArea_pServer_services.setText(rs.getString("Services_Applications"));
 					textArea_pServer_Notes.setText(rs.getString("Notes"));
 					comboBox_pServer_RackPos.setSelectedItem(Integer.parseInt(rs.getString("RackPosition")));
 					comboBox_pServers_Usize.setSelectedItem(rs.getString("uSize"));
-				}	
+				}
 			}catch(SQLException e)
 			{
 				e.printStackTrace();
@@ -2351,7 +2342,7 @@ public class ITInfraDBManager_Main {
 				while(rs.next())
 				{
 					comboBox_vServer_pServer_Name.setSelectedItem(rs.getString("pServer_Name"));
-					comboBox_vServer_StatusON.setSelectedItem(rs.getString("Status_ON"));	
+					comboBox_vServer_StatusON.setSelectedItem(rs.getString("Status_ON"));
 					comboBox_vServer_AssignedMem.setSelectedItem(rs.getString("assignedMemory"));
 					comboBox_vServer_VHDsize.setSelectedItem(rs.getString("VHD_Size"));
 					textField_vServer_IPAdd01.setText(rs.getString("IP_Address_01"));
@@ -2388,7 +2379,7 @@ public class ITInfraDBManager_Main {
 					textField_NetEQ_IPAdd03.setText(rs.getString("IP_Address_03"));
 					textField_NetEQ_IPAdd04.setText(rs.getString("IP_Address_04"));
 					textArea_NetEQ_Services.setText(rs.getString("Services_Applications"));
-					textArea_NetEQ_notes.setText(rs.getString("Notes"));					
+					textArea_NetEQ_notes.setText(rs.getString("Notes"));
 				}
 
 			}catch(SQLException e)
@@ -2397,7 +2388,7 @@ public class ITInfraDBManager_Main {
 			}
 			break;
 		case "PSERVERPSU":
-			query = "SELECT * FROM dbo.pServer_PSU WHERE PSU_Num = '" + comboBox_pServer_PSU_psuNum.getSelectedItem().toString() + 
+			query = "SELECT * FROM dbo.pServer_PSU WHERE PSU_Num = '" + comboBox_pServer_PSU_psuNum.getSelectedItem().toString() +
 			"' AND Pserver_Name = '" +	comboBox_pServer_PSU_pServerName.getSelectedItem().toString() + "'";
 			try
 			{
@@ -2451,7 +2442,7 @@ public class ITInfraDBManager_Main {
 					textField_UPS_maccAdd.setText(rs.getString("mac_Address"));
 					textField_UPS_URL.setText(rs.getString("productURL"));
 					textField_UPS_powCapacity.setText(rs.getString("powerCapacity_W"));
-					textField_UPS_circuitNum.setText(rs.getString("circuitNum"));				
+					textField_UPS_circuitNum.setText(rs.getString("circuitNum"));
 				}
 
 			}catch(SQLException e)
@@ -2491,7 +2482,7 @@ public class ITInfraDBManager_Main {
 			values[0] = comboBox_vServers_vServer_Name.getSelectedItem().toString();
 			values[1] = comboBox_vServer_pServer_Name.getSelectedItem().toString();
 			values[2] = comboBox_vServer_StatusON.getSelectedItem().toString();
-			values[3] = comboBox_vServer_AssignedMem.getSelectedItem().toString();	
+			values[3] = comboBox_vServer_AssignedMem.getSelectedItem().toString();
 			values[4] = comboBox_vServer_VHDsize.getSelectedItem().toString();
 			values[5] = textField_vServer_IPAdd01.getText();
 			values[6] = textField_vServer_IPAdd02.getText();
@@ -2501,7 +2492,7 @@ public class ITInfraDBManager_Main {
 			values[10] = textField_vServer_moreBackUp.getText();
 			values[11] = textField_vServer_OS.getText();
 			values[12] = textField_vServer_Services.getText();
-			values[13] = textField_vServer_pointOfContact.getText();			
+			values[13] = textField_vServer_pointOfContact.getText();
 			break;
 		case "NETEQ":
 			values[0] = comboBox_NetEQ_SerialNum.getSelectedItem().toString();
@@ -2524,7 +2515,7 @@ public class ITInfraDBManager_Main {
 			values[1] = comboBox_pServer_PSU_pServerName.getSelectedItem().toString();
 			values[2] = comboBox_pServer_PSU_UpsName.getSelectedItem().toString();
 			values[3] = comboBox_pServer_PSU_outletNum.getSelectedItem().toString();
-			values[4] = comboBox_pServer_PSU_PDUName.getSelectedItem().toString();				
+			values[4] = comboBox_pServer_PSU_PDUName.getSelectedItem().toString();
 			break;
 		case "AWS":
 			values[0] = comboBox_AWSEC2_Instance.getSelectedItem().toString();
@@ -2532,7 +2523,7 @@ public class ITInfraDBManager_Main {
 			values[2] = textField_AWSEC2_OS.getText();
 			values[3] = textField_AWSEC2_IPAdd.getText();
 			values[4] = textField_AWSEC2_URL.getText();
-			values[5] = textField_AWSEC2_Services.getText();	
+			values[5] = textField_AWSEC2_Services.getText();
 			break;
 		case "UPS":
 			values[0] = comboBox_UPS_Name.getSelectedItem().toString();
@@ -2550,7 +2541,7 @@ public class ITInfraDBManager_Main {
 	public void btnAction(String action, String tabName){
 
 		switch (tabName.toUpperCase()){
-		case "PSERVERS":	
+		case "PSERVERS":
 			collectValues(tabName.toUpperCase());
 			switch( action.toUpperCase()){
 			case "ADD":
@@ -2560,14 +2551,14 @@ public class ITInfraDBManager_Main {
 					populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
 				}
 				break;
-			case "UPDATE":	
+			case "UPDATE":
 				if(valid(tabName)){
 					updateRecord("PSERVERS", values);
 					refreshTable("dbo.pServers", jTable_pServers);
 					populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
 				}
 				break;
-			case "DELETE":															
+			case "DELETE":
 				deleteRecord("PSERVERS", values);
 				refreshTable("dbo.pServers", jTable_pServers);
 				populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
@@ -2577,25 +2568,25 @@ public class ITInfraDBManager_Main {
 		case "VSERVERS":
 			collectValues(tabName.toUpperCase());
 			switch( action.toUpperCase()){
-			case "ADD":	
+			case "ADD":
 				if(valid(tabName)){
 					addRecord("VSERVERS", values);
 					refreshTable("dbo.vServer", jTable_vServers);
 					populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
 					populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
-					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);	
+					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
 				}
 				break;
-			case "UPDATE":	
+			case "UPDATE":
 				if(valid(tabName)){
 					updateRecord("VSERVERS", values);
 					refreshTable("dbo.vServer", jTable_vServers);
 					populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
 					populateCombobox(comboBox_vServer_VHDsize, "dbo.vServer", "VHD_Size", true);
-					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);	
+					populateCombobox(comboBox_vServer_AssignedMem, "dbo.vServer", "assignedMemory", true);
 				}
 				break;
-			case "DELETE":															
+			case "DELETE":
 				deleteRecord("VSERVERS", values);
 				refreshTable("dbo.vServer", jTable_vServers);
 				populateCombobox(comboBox_vServers_vServer_Name, "dbo.vServer", "vServer_Name", true);
@@ -2607,7 +2598,7 @@ public class ITInfraDBManager_Main {
 		case "NETEQ":
 			collectValues(tabName.toUpperCase());
 			switch( action.toUpperCase()){
-			case "ADD":	
+			case "ADD":
 				if(valid(tabName)){
 					addRecord("NETEQ", values);
 					refreshTable("dbo.Network_Equipment", jTable_netEQ);
@@ -2637,12 +2628,12 @@ public class ITInfraDBManager_Main {
 		case "PSERVERPSU":
 			collectValues(tabName.toUpperCase());
 			switch( action.toUpperCase()){
-			case "ADD":															
+			case "ADD":
 				addRecord("PSERVERPSU", values);
 				refreshTable("dbo.pServer_PSU", jTable_pServer_PSU);
 				populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
 				break;
-			case "UPDATE":														
+			case "UPDATE":
 				updateRecord("PSERVERPSU", values);
 				refreshTable("dbo.pServer_PSU", jTable_pServer_PSU);
 				populateCombobox(comboBox_pServer_Name, "dbo.pServers", "pServer_Name", true);
@@ -2657,12 +2648,12 @@ public class ITInfraDBManager_Main {
 		case "AWS":
 			collectValues(tabName.toUpperCase());
 			switch( action.toUpperCase()){
-			case "ADD":														
+			case "ADD":
 				addRecord("AWS", values);
 				refreshTable("dbo.AWS_EC2", jTable_AWS_EC2);
 				populateCombobox(comboBox_AWSEC2_Instance, "dbo.AWS_EC2", "Instance", true);
 				break;
-			case "UPDATE":														
+			case "UPDATE":
 				updateRecord("AWS", values);
 				refreshTable("dbo.AWS_EC2", jTable_AWS_EC2);
 				populateCombobox(comboBox_AWSEC2_Instance, "dbo.AWS_EC2", "Instance", true);
@@ -2673,28 +2664,28 @@ public class ITInfraDBManager_Main {
 				populateCombobox(comboBox_AWSEC2_Instance, "dbo.AWS_EC2", "Instance", true);
 				break;
 			}
-			break;	
+			break;
 		case "UPS":
 			if(comboBox_UPS_rackNum.getSelectedItem() == null || comboBox_UPS_rackNum.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select a Rack Number", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else{
 				collectValues(tabName.toUpperCase());
 				switch( action.toUpperCase()){
-				case "ADD":														
+				case "ADD":
 					addRecord("UPS", values);
 					refreshTable("dbo.UPS", jTable_UPS);
 					populateCombobox(comboBox_UPS_Name, "dbo.UPS", "upsName", true);
 					break;
-				case "UPDATE":														
+				case "UPDATE":
 					updateRecord("UPS", values);
 					refreshTable("dbo.UPS", jTable_UPS);
-					populateCombobox(comboBox_UPS_Name, "dbo.UPS", "upsName", true);				
+					populateCombobox(comboBox_UPS_Name, "dbo.UPS", "upsName", true);
 					break;
 				case "DELETE":
 					deleteRecord("UPS", values);
 					refreshTable("dbo.UPS", jTable_UPS);
-					populateCombobox(comboBox_UPS_Name, "dbo.UPS", "upsName", true);					
+					populateCombobox(comboBox_UPS_Name, "dbo.UPS", "upsName", true);
 					break;
 				}
 			}
@@ -2703,7 +2694,7 @@ public class ITInfraDBManager_Main {
 	}
 
 	/**
-	 * This method will be called by the action listeners for the add button displayed on each tab. 
+	 * This method will be called by the action listeners for the add button displayed on each tab.
 	 * @param tableName
 	 * @param values
 	 */
@@ -2717,10 +2708,10 @@ public class ITInfraDBManager_Main {
 		case "PSERVERS":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.pServers " + 
-						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" + 
-						values[5]  + "', '" + values[6]  + "', '" + values[7] +  "', '" + values[8]  + "', '" + values[9]  + "', '" + values[10]  + 
-						"', '" + values[11]  + "', '" + values[12]  + "', '" + values[13]  + "', '" + values[14]  + "', " + values[15] +  ", '" + 
+				addSTMT.executeUpdate("INSERT INTO dbo.pServers " +
+						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" +
+						values[5]  + "', '" + values[6]  + "', '" + values[7] +  "', '" + values[8]  + "', '" + values[9]  + "', '" + values[10]  +
+						"', '" + values[11]  + "', '" + values[12]  + "', '" + values[13]  + "', '" + values[14]  + "', " + values[15] +  ", '" +
 						values[16]  + "')" );
 				JOptionPane.showMessageDialog(null, "Record added to Physical Servers table");
 			} catch (SQLException e1) {
@@ -2739,9 +2730,9 @@ public class ITInfraDBManager_Main {
 		case "VSERVERS":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.vServer " + 
-						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', " + Integer.parseInt(values[3])  + ", " + Integer.parseInt(values[4])  + ", '" + values[5]  + 
-						"', '" + values[6]  + "', '" +  values[7] +  "', '" + values[8]  + "', '" + values[9]  + "', '" + values[10]  + "', '" + values[11]  + 
+				addSTMT.executeUpdate("INSERT INTO dbo.vServer " +
+						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', " + Integer.parseInt(values[3])  + ", " + Integer.parseInt(values[4])  + ", '" + values[5]  +
+						"', '" + values[6]  + "', '" +  values[7] +  "', '" + values[8]  + "', '" + values[9]  + "', '" + values[10]  + "', '" + values[11]  +
 						"', '" + values[12]  + "', '" + values[13]  + "')" );
 				JOptionPane.showMessageDialog(null, "Record added to Virtual Servers table");
 			} catch (SQLException e1) {
@@ -2760,7 +2751,7 @@ public class ITInfraDBManager_Main {
 		case "NETEQ":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.Network_Equipment " + 
+				addSTMT.executeUpdate("INSERT INTO dbo.Network_Equipment " +
 						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" + values[5]  + "', '" + values[6]  + "', '" +
 						values[7] +  "', '" + values[8]  + "', '" + values[9]  + "', '" + values[10]  + "', '" + values[11]  + "', '" + values[12]  + "', '" + values[13]  + "')" );
 				JOptionPane.showMessageDialog(null, "Record added to Network Equipment table");
@@ -2780,7 +2771,7 @@ public class ITInfraDBManager_Main {
 		case "PSERVERPSU":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.pServer_PSU " + 
+				addSTMT.executeUpdate("INSERT INTO dbo.pServer_PSU " +
 						"VALUES ("  + values[0]  + ", '" + values[1]  + "', '" + values[2]  + "', " + values[3]+ ", '" + values[4]  + "'); ");
 				JOptionPane.showMessageDialog(null, "Record added to Physical Server PSU table");
 			} catch (SQLException e1) {
@@ -2800,7 +2791,7 @@ public class ITInfraDBManager_Main {
 		case "AWS":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.AWS_EC2 " + 
+				addSTMT.executeUpdate("INSERT INTO dbo.AWS_EC2 " +
 						"VALUES ( '" + values[0]  + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" + values[5]  + "')" );
 				JOptionPane.showMessageDialog(null, "Record added to AWS EC2 table");
 			} catch (SQLException e1) {
@@ -2822,8 +2813,8 @@ public class ITInfraDBManager_Main {
 		case "UPS":
 			try {
 				addSTMT = estConn().createStatement();
-				addSTMT.executeUpdate("INSERT INTO dbo.UPS " + 
-						"VALUES ( '" + values[0] + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" + 
+				addSTMT.executeUpdate("INSERT INTO dbo.UPS " +
+						"VALUES ( '" + values[0] + "', '" + values[1]  + "', '" + values[2]  + "', '" + values[3]  + "', '" + values[4]  + "', '" +
 						values[5]  + "', '" + values[6]  + "', '" + values[7] +  "', '" + values[8]  + "')" );
 				JOptionPane.showMessageDialog(null, "Record added to UPS table");
 			} catch (SQLException e1) {
@@ -2855,7 +2846,7 @@ public class ITInfraDBManager_Main {
 		case ("PSERVERS"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.pServers " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.pServers " +
 						"WHERE pServer_Name = '" + values[0] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from Physical Servers table");
 			} catch (SQLException e1) {
@@ -2873,7 +2864,7 @@ public class ITInfraDBManager_Main {
 		case ("VSERVERS"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.vServer " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.vServer " +
 						"WHERE vServer_Name = '" + values[0] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from Virtual Servers table");
 			} catch (SQLException e1) {
@@ -2891,7 +2882,7 @@ public class ITInfraDBManager_Main {
 		case ("NETEQ"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.Network_equipment " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.Network_equipment " +
 						"WHERE Net_EQ_Serial_Num = '" + values[0] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from Network Equipment table");
 			} catch (SQLException e1) {
@@ -2909,7 +2900,7 @@ public class ITInfraDBManager_Main {
 		case ("PSERVERPSU"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.pServer_PSU " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.pServer_PSU " +
 						"WHERE PSU_Num = '" + values[0] + "' AND Pserver_Name = '" + values[1] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from Physical Servers PSU table");
 			} catch (SQLException e1) {
@@ -2927,7 +2918,7 @@ public class ITInfraDBManager_Main {
 		case ("AWS"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.AWS_EC2 " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.AWS_EC2 " +
 						"WHERE instance = '" + values[0] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from AWS EC2 table");
 			} catch (SQLException e1) {
@@ -2945,7 +2936,7 @@ public class ITInfraDBManager_Main {
 		case ("UPS"):
 			try {
 				delSTMT = estConn().createStatement();
-				delSTMT.executeUpdate("DELETE FROM dbo.UPS " + 
+				delSTMT.executeUpdate("DELETE FROM dbo.UPS " +
 						"WHERE upsName = '" + values[0] + "'");
 				JOptionPane.showMessageDialog(null, "Record deleted from UPS table");
 			} catch (SQLException e1) {
@@ -2977,10 +2968,10 @@ public class ITInfraDBManager_Main {
 		case ("PSERVERS"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.pServers " + 
-						"SET RackNum = '" + values[1] + "', Status_ON = '" + values[2] + "', Model = '" + values[3] + "', Serial_Num = '" + values[4] + "', RAT = '" + 
+				upSTMT.executeUpdate("UPDATE dbo.pServers " +
+						"SET RackNum = '" + values[1] + "', Status_ON = '" + values[2] + "', Model = '" + values[3] + "', Serial_Num = '" + values[4] + "', RAT = '" +
 						values[5] + "', ProductionDate = '" + values[6] + "', OS = '" + values[7] + "', IP_Address_01 = '" + values[8] + "', IP_Address_02 = '" +
-						values[9] + "', IP_Address_03 = '" + values[10] + "', IP_Address_04 = '" + values[11] + "', DRAC_IP_Address = '" + values[12] + 
+						values[9] + "', IP_Address_03 = '" + values[10] + "', IP_Address_04 = '" + values[11] + "', DRAC_IP_Address = '" + values[12] +
 						"', Services_Applications = '" + values[13] + "', Notes = '" + values[14] + "', RackPosition = " + values[15] + ", uSize = '" + values[16] +
 						"' WHERE pServer_Name = '" + values[0] + "';");
 				JOptionPane.showMessageDialog(null, "Record Updated!");
@@ -2999,10 +2990,10 @@ public class ITInfraDBManager_Main {
 		case ("VSERVERS"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.vServer " + 
+				upSTMT.executeUpdate("UPDATE dbo.vServer " +
 						"SET Status_ON = '" + values[2] + "', assignedMemory = " + Integer.parseInt(values[3]) + ", VHD_Size = " + Integer.parseInt(values[4]) + ", IP_Address_01 = '" + values[5] +
 						"', IP_Address_02 = '" + values[6] + "', IP_Address_03 = '" + values[7] + "', IP_Address_04 = '" + values[8] + "', BackupDestination = '" +
-						values[9] + "', moreBackups = '" + values[10] + "', OS = '" + values[11] + "', Services_Applications = '" + values[12] + 
+						values[9] + "', moreBackups = '" + values[10] + "', OS = '" + values[11] + "', Services_Applications = '" + values[12] +
 						"', point_of_contact = '" + values[13] + "'" +
 						"WHERE vServer_Name = '" + values[0] + "' AND pServer_Name = '" + values[1] + "';");
 				JOptionPane.showMessageDialog(null, "Record Updated!");
@@ -3021,7 +3012,7 @@ public class ITInfraDBManager_Main {
 		case ("NETEQ"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.Network_Equipment " + 
+				upSTMT.executeUpdate("UPDATE dbo.Network_Equipment " +
 						"SET hostname = '" + values[1] + "', RackNum = '" + values[2] + "', RAT = '" + values[3] + "', Manufacturer = '" + values[4] +
 						"', Model = '" + values[5] + "', Type = '" + values[6] + "', Status_ON = '" + values[7] + "', IP_Address_01 = '" + values[8] +
 						"', IP_Address_02 = '" + values[9] + "', IP_Address_03 = '" + values[10] + "', IP_Address_04 = '" + values[11] +
@@ -3043,7 +3034,7 @@ public class ITInfraDBManager_Main {
 		case ("PSERVERPSU"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.pServer_PSU " + 
+				upSTMT.executeUpdate("UPDATE dbo.pServer_PSU " +
 						"SET upsname = '" + values[2] + "', outletNum = '" + values[3] + "', PDU_Name = '" + values[3] + "' " +
 						"WHERE PSU_Num = '" + values[0] + "' AND Pserver_Name = '" + values[1] + "';");
 				JOptionPane.showMessageDialog(null, "Record Updated!");
@@ -3062,7 +3053,7 @@ public class ITInfraDBManager_Main {
 		case ("AWS"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.AWS_EC2 " + 
+				upSTMT.executeUpdate("UPDATE dbo.AWS_EC2 " +
 						"SET hostname = '" + values[1] + "', OS = '" + values[2] + "', IP_Address = '" + values[3] +
 						"', ec2_url = '" + values[4]+ "', instance = '" + values[5] + "' " +
 						"WHERE instance = '" + values[0] + "';");
@@ -3082,7 +3073,7 @@ public class ITInfraDBManager_Main {
 		case ("UPS"):
 			try {
 				upSTMT = estConn().createStatement();
-				upSTMT.executeUpdate("UPDATE dbo.UPS " + 
+				upSTMT.executeUpdate("UPDATE dbo.UPS " +
 						"SET rackNum = '" + values[1] + "', model = '" + values[2] + "', serialNum = '" + values[3] + "', IP_Address_01 = '" + values[4] +
 						"', mac_Address = '" + values[5] + "', productURL = '" + values[6] + "', powerCapacity_W = '" + values[7] + "', circuitNum = '" + values[8] +
 						"'" + " WHERE upsName = '" + values[0] + "';");
@@ -3118,13 +3109,13 @@ public class ITInfraDBManager_Main {
 		try {
 			stmt = estConn().prepareStatement(qry);
 			rs = stmt.executeQuery();
-			table.setModel(buildTableModel(rs)); 
+			table.setModel(buildTableModel(rs));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}finally{
 			closeConn(rs, stmt);
-		}		
+		}
 	}
 	public boolean valid(String tabName){
 		boolean valid = false;
@@ -3132,16 +3123,16 @@ public class ITInfraDBManager_Main {
 		case "PSERVERS":
 			if(comboBox_pServer_StatusOn.getSelectedItem() == null || comboBox_pServer_StatusOn.getSelectedItem().toString().equals("") ){
 				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_pServer_RackNum.getSelectedItem() == null || comboBox_pServer_RackNum.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select a Rack Number", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_pServer_RackPos.getSelectedItem() == null || comboBox_pServer_RackPos.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select a Rack Position)", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_pServers_Usize.getSelectedItem() == null || comboBox_pServers_Usize.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select the Servers U Size", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else{
 				valid = true;
 				break;
@@ -3149,16 +3140,16 @@ public class ITInfraDBManager_Main {
 		case "VSERVERS":
 			if(comboBox_vServer_StatusON.getSelectedItem() == null || comboBox_vServer_StatusON.getSelectedItem().toString().equals("") ){
 				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_vServer_AssignedMem.getSelectedItem() == null || comboBox_vServer_AssignedMem.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Enter / Select an Amount os Assigned RAM\n (EX: Enter 4 to signify 4GB)", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_vServer_VHDsize.getSelectedItem() == null || comboBox_vServer_VHDsize.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Enter / Select a VHD Size\n (EX: Enter 60 to Signify 60GB)", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_vServer_pServer_Name.getSelectedItem() == null || comboBox_vServer_pServer_Name.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Enter / Select a Physical Host Name", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else{
 				valid = true;
 				break;
@@ -3166,16 +3157,16 @@ public class ITInfraDBManager_Main {
 		case "NETEQ":
 			if(comboBox_NetEQ_Type.getSelectedItem() == null || comboBox_NetEQ_Type.getSelectedItem().toString().equals("") ){
 				JOptionPane.showMessageDialog(null, "You must Enter / Select a Type", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_NetEQ_StatusOn.getSelectedItem() == null || comboBox_NetEQ_StatusOn.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select a Status \n T if server is On F if it is off", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_NetEQ_RackNum.getSelectedItem() == null || comboBox_NetEQ_RackNum.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Select a Rack Number", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else if(comboBox_NetEQ_hostName.getSelectedItem() == null || comboBox_NetEQ_hostName.getSelectedItem().toString().equals("")){
 				JOptionPane.showMessageDialog(null, "You must Enter / Select a Hostname", "Error", JOptionPane.ERROR_MESSAGE);
-				break;								
+				break;
 			}else{
 				valid = true;
 				break;
