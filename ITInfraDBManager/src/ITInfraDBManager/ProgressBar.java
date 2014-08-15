@@ -47,7 +47,7 @@ public class ProgressBar {
 		gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_progressBar.gridx = 0;
 		gbc_progressBar.gridy = 1;
-		progressBar.setForeground(new Color(0, 255, 0));
+		progressBar.setForeground(Color.RED);
 		progressBar.setIndeterminate(true);
 		frame.getContentPane().add(progressBar, gbc_progressBar);
 	}
