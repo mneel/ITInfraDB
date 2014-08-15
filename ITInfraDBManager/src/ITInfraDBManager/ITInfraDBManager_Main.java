@@ -3075,6 +3075,8 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to Physical Servers table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3094,6 +3096,8 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to Physical Server HW Configuration Table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 } catch(NumberFormatException ne){
                     JOptionPane.showMessageDialog(null, "You have entered invalid data. Please check you entries and Try again. ", "Error", JOptionPane.ERROR_MESSAGE);
@@ -3116,6 +3120,8 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to Virtual Servers table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3135,6 +3141,8 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to Network Equipment table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);                   
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3154,6 +3162,9 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to Physical Server PSU table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
+                    
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3174,6 +3185,9 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to AWS EC2 table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
+                    
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3197,6 +3211,9 @@ public class ITInfraDBManager_Main {
                     JOptionPane.showMessageDialog(null, "Record added to UPS table");
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
+                    if(e1.toString().contains("duplicate key"))
+                        JOptionPane.showMessageDialog(null, "Violation of PRIMARY KEY constraint: Cannot insert duplicate key in object", "Violation of PRIMARY KEY constraint", JOptionPane.ERROR_MESSAGE);
+                    
                     e1.printStackTrace();
                 } finally {
                     try {
@@ -3245,7 +3262,7 @@ public class ITInfraDBManager_Main {
             case ("HWCONFIG"):
                 try {
                     delSTMT = estConn().createStatement();
-                    delSTMT.executeUpdate("DELETE FROM dbo.pServers_HW_Configuration "
+                    delSTMT.executeUpdate("DELETE FROM dbo.pServer_HW_Configuration "
                             + "WHERE pServer_Name = '" + values[0] + "'");
                     JOptionPane.showMessageDialog(null, "Record deleted from Physical Servers HW Configuration table");
                 } catch (SQLException e1) {
@@ -3642,6 +3659,7 @@ public class ITInfraDBManager_Main {
                 break;
             case "HWCONFIG":
                 refreshTable("dbo.pServer_HW_Configuration", jTable_pServerHWConfig);
+                populateCombobox(comboBox_pServerHWConfig_pServerName, "dbo.pServers", "pServer_Name", true);
                 populateCombobox(comboBox_pServerHWConfig_cpuSocketType, "dbo.pServer_HW_Configuration", "cpuSocketType", true);
                 populateCombobox(comboBox_pServerHWConfig_totalMem, "dbo.pServer_HW_Configuration", "TotalMemory_GB", true);
                 populateCombobox(comboBox_pServerHWConfig_totalHDD, "dbo.pServer_HW_Configuration", "total_HDDSpace_GB", true);  
